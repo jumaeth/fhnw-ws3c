@@ -28,18 +28,17 @@ export default function App() {
         <div>
           {semester.map((sem, index) => (
             <Link to="/semester">
-              <button type="button" key={index}>{sem.name}</button>
+              <button
+                type="button"
+                key={index}
+              >{sem.name}</button>
             </Link>
           ))}
         </div>
-        <button type="button" onClick={addSemester}>+</button>
         <button
-          className=""
           type="button"
           onClick={() => setShowModal(true)}
-        >
-          Open regular modal
-        </button>
+        >+</button>
         <Modal open={showModal} onClose={() => setShowModal(false)}>
           <div className="text-center w-56">
             <h3>Modal</h3>

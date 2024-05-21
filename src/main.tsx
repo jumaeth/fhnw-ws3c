@@ -5,9 +5,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import {Grade} from "./grade/Grade.tsx";
-import {Module} from "./module/Module.tsx";
-import {Semester} from "./semester/Semester.tsx";
+import ModulePage from "@/module/module.tsx";
+import GradePage from "@/grade/grade.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,21 +16,15 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "semester",
+    path: "/semester/:semesterId",
     element: (
-      <Semester/>
+      <ModulePage/>
     ),
   },
   {
-    path: "module",
+    path: "/semester/:semesterId/module/:moduleId",
     element: (
-      <Module/>
-    ),
-  },
-  {
-    path: "grade",
-    element: (
-      <Grade/>
+      <GradePage/>
     ),
   },
 ]);

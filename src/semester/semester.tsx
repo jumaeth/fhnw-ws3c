@@ -7,6 +7,7 @@ import {Link} from "react-router-dom";
 import Card from "@/components/card.tsx";
 import {calculateModuleAverage} from "@/module/module.tsx";
 import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
+import Button from "@/components/button.tsx";
 
 export default function SemesterPage() {
   if (!localStorage.semesters) {
@@ -51,31 +52,27 @@ export default function SemesterPage() {
       <h1>Semester</h1>
       <div className="flex flex-col gap-2 mb-2">
         {semester.map((semester, index) => (
-          <div key={index} className="flex gap-2">
+          <div key={index}>
             <Link to={`/semester/${semester.name}`}>
               <Card left={semester.name} right={"⌀ " + calculateAverageGrade(semester)}/>
             </Link>
             {showDeleteButtons && (
-              <button
-                className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
+              <Button
                 onClick={() => deleteSemester(semester)}
-              >
-                <Icons.trash className="w-4 h-4"/>
-              </button>
+                icon={<Icons.trash className="w-4 h-4"/>}
+              />
             )}
           </div>
         ))}
       </div>
-      <button
-        type="button"
+      <Button
         onClick={() => setShowModal(true)}
-      >
-        <Icons.plus className="w-4 h-4"/>
-      </button>
+        icon={<Icons.plus className="w-4 h-4"/>}
+      />
       <Modal open={showModal} onClose={() => setShowModal(false)}>
-        <div className="text-center w-80 bg-gray-50 dark:bg-zinc-900">
+        <div className="text-center w-80 bg-gray-50">
           <div className="mx-auto my-4 w-64">
-            <h3 className="text-lg font-black text-gray-800 mb-6 dark:text-white">Neues Semester</h3>
+            <h3 className="text-lg font-black text-gray-800 mb-6">Neues Semester</h3>
             <SingleInputForm inputLabelName="Semester" placeholder="HS25" setShowModal={setShowModal}
                              onSave={text => addSemester(text)}/>
           </div>

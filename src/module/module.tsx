@@ -6,6 +6,7 @@ import SingleInputForm from "@/components/single-input-form.tsx";
 import {Module, Semester} from "@/types/types.ts";
 import Card from "@/components/card.tsx";
 import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
+import Button from "@/components/button.tsx";
 
 export default function ModulePage() {
   const [showModal, setShowModal] = useState(false);
@@ -54,26 +55,22 @@ export default function ModulePage() {
               <Card left={module.name} right={"⌀ " + calculateModuleAverage(module)}/>
             </Link>
             {showDeleteButtons && (
-              <button
-                className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
+              <Button
                 onClick={() => deleteModule(module)}
-              >
-                <Icons.trash className="w-4 h-4"/>
-              </button>
+                icon={<Icons.trash className="w-4 h-4"/>}
+              />
             )}
           </div>
         ))}
       </div>
-      <button
-        type="button"
+      <Button
         onClick={() => setShowModal(true)}
-      >
-        <Icons.plus className="w-4 h-4"/>
-      </button>
+        icon={<Icons.plus className="w-4 h-4"/>}
+      />
       <Modal open={showModal} onClose={() => setShowModal(false)}>
-        <div className="text-center w-80 bg-gray-50 dark:bg-zinc-900">
+        <div className="text-center w-80 bg-gray-50">
           <div className="mx-auto my-4 w-64">
-            <h3 className="text-lg font-black text-gray-800 mb-6 dark:text-white">Neues Modul</h3>
+            <h3 className="text-lg font-black text-gray-800 mb-6">Neues Modul</h3>
             <SingleInputForm inputLabelName="Module" placeholder="MADA" setShowModal={setShowModal}
                              onSave={moduleName => addModule(moduleName)}/>
           </div>

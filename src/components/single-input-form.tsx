@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import Button from "@/components/button.tsx";
 
 interface Props {
   inputLabelName: string;
@@ -23,7 +24,7 @@ export default function SingleInputForm({inputLabelName, placeholder, setShowMod
   return (
     <form className="text-left" onSubmit={handleSubmit}>
       <div className="mb-6">
-        <label htmlFor="input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        <label htmlFor="input" className="block mb-2 text-sm font-medium text-gray-900">
           {inputLabelName}
         </label>
         <input type="text"
@@ -31,23 +32,20 @@ export default function SingleInputForm({inputLabelName, placeholder, setShowMod
                id="input"
                name="input"
                onChange={handleInputChange}
-               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500"
+               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                placeholder={placeholder}
                required
         />
       </div>
       <div className="flex gap-4">
-        <button onClick={() => setShowModal(false)}
-                className="btn btn-danger w-full"
-                type="button"
-        >
-          Abbrechen
-        </button>
-        <button className="btn btn-light w-full"
-                type="submit"
-        >
-          Speichern
-        </button>
+        <Button
+          onClick={() => setShowModal(false)}
+          text="Abbrechen"
+        />
+        <Button
+          text="Speichern"
+          submit={true}
+        />
       </div>
     </form>
   )

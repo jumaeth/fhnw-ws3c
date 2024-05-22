@@ -6,6 +6,7 @@ import {Grade, Module, Semester} from "@/types/types.ts";
 import {Icons} from "@/components/icons.tsx";
 import Card from "@/components/card.tsx";
 import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
+import Button from "@/components/button.tsx";
 
 export default function GradePage() {
   const [showModal, setShowModal] = useState(false);
@@ -67,26 +68,22 @@ export default function GradePage() {
               right={grade.grade.toString()}
             />
             {showDeleteButtons && (
-              <button
-                className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
+              <Button
                 onClick={() => deleteGrade(grade)}
-              >
-                <Icons.trash className="w-4 h-4"/>
-              </button>
+                icon={<Icons.trash className="w-4 h-4"/>}
+              />
             )}
           </div>
         ))}
       </div>
-      <button
-        type="button"
+      <Button
         onClick={() => setShowModal(true)}
-      >
-        <Icons.plus className="w-4 h-4"/>
-      </button>
+        icon={<Icons.plus className="w-4 h-4"/>}
+      />
       <Modal open={showModal} onClose={() => setShowModal(false)}>
-        <div className="text-center w-80 bg-gray-50 dark:bg-zinc-900">
+        <div className="text-center w-80 bg-gray-50">
           <div className="mx-auto my-4 w-64">
-            <h3 className="text-lg font-black text-gray-800 mb-6 dark:text-white">Neue Note</h3>
+            <h3 className="text-lg font-black text-gray-800 mb-6">Neue Note</h3>
             <GradeForm setShowModal={setShowModal} onSave={grade => addGrade(grade)}/>
           </div>
         </div>

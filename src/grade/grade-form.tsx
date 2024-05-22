@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Grade} from "@/types/types.ts";
+import Button from "@/components/button.tsx";
 
 interface Props {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,7 +37,7 @@ export default function GradeForm({setShowModal, onSave}: Props) {
   return (
     <form className="text-left" onSubmit={handleSubmit}>
       <div className="mb-6">
-        <label htmlFor="input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        <label htmlFor="input" className="block mb-2 text-sm font-medium text-gray-900">
           Prüfungsname
         </label>
         <input type="text"
@@ -44,13 +45,13 @@ export default function GradeForm({setShowModal, onSave}: Props) {
                id="input"
                name="input"
                onChange={handleNameChange}
-               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500"
+               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                placeholder="Prüfungsname"
                required
         />
       </div>
       <div className="mb-6">
-        <label htmlFor="input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        <label htmlFor="input" className="block mb-2 text-sm font-medium text-gray-900">
           Note
         </label>
         <input type="number"
@@ -58,13 +59,13 @@ export default function GradeForm({setShowModal, onSave}: Props) {
                id="input"
                name="input"
                onChange={handleGradeChange}
-               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500"
+               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                placeholder="Note"
                required
         />
       </div>
       <div className="mb-6">
-        <label htmlFor="input" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+        <label htmlFor="input" className="block mb-2 text-sm font-medium text-gray-900">
           Gewichtung
         </label>
         <input type="number"
@@ -72,23 +73,20 @@ export default function GradeForm({setShowModal, onSave}: Props) {
                id="input"
                name="input"
                onChange={handleWeigthChange}
-               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-zinc-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-white-500 dark:focus:border-white-500"
+               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                placeholder="Gewichtung"
                required
         />
       </div>
       <div className="flex gap-4">
-        <button onClick={() => setShowModal(false)}
-                className="btn btn-danger w-full"
-                type="button"
-        >
-          Abbrechen
-        </button>
-        <button className="btn btn-light w-full"
-                type="submit"
-        >
-          Speichern
-        </button>
+        <Button
+          onClick={() => setShowModal(false)}
+          text="Abbrechen"
+        />
+        <Button
+          submit={true}
+          text="Speichern"
+        />
       </div>
     </form>
   )

@@ -5,11 +5,13 @@ import Modal from "@/components/modal.tsx";
 import SingleInputForm from "@/components/single-input-form.tsx";
 import {Module, Semester} from "@/types/types.ts";
 import Card from "@/components/card.tsx";
+import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
 
 export default function ModulePage() {
   const [showModal, setShowModal] = useState(false);
   const [semesters, setSemesters] = useState<Semester[]>(JSON.parse(localStorage.semesters) || [])
   const {semesterId} = useParams();
+  const {showDeleteButtons} = useDeleteButton();
 
   const semester = semesters.find((sem: Semester) => sem.name === semesterId);
 
@@ -51,12 +53,14 @@ export default function ModulePage() {
             <Link to={`/semester/${semester.name}/module/${module.name}`}>
               <Card left={module.name} right={"⌀ " + calculateModuleAverage(module)}/>
             </Link>
-            <button
-              className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
-              onClick={() => deleteModule(module)}
-            >
-              <Icons.trash className="w-4 h-4"/>
-            </button>
+            {showDeleteButtons && (
+              <button
+                className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
+                onClick={() => deleteModule(module)}
+              >
+                <Icons.trash className="w-4 h-4"/>
+              </button>
+            )}
           </div>
         ))}
       </div>

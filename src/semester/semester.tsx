@@ -6,6 +6,7 @@ import SingleInputForm from "@/components/single-input-form.tsx";
 import {Link} from "react-router-dom";
 import Card from "@/components/card.tsx";
 import {calculateModuleAverage} from "@/module/module.tsx";
+import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
 
 export default function SemesterPage() {
   if (!localStorage.semesters) {
@@ -13,6 +14,7 @@ export default function SemesterPage() {
   }
   const [semester, setSemester] = useState<Semester[]>(JSON.parse(localStorage.semesters))
   const [showModal, setShowModal] = useState(false);
+  const {showDeleteButtons} = useDeleteButton();
 
   function addSemester(name: string) {
     if (semester.find((semester: Semester) => semester.name === name)) {
@@ -53,12 +55,14 @@ export default function SemesterPage() {
             <Link to={`/semester/${semester.name}`}>
               <Card left={semester.name} right={"⌀ " + calculateAverageGrade(semester)}/>
             </Link>
-            <button
-              className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
-              onClick={() => deleteSemester(semester)}
-            >
-              <Icons.trash className="w-4 h-4"/>
-            </button>
+            {showDeleteButtons && (
+              <button
+                className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
+                onClick={() => deleteSemester(semester)}
+              >
+                <Icons.trash className="w-4 h-4"/>
+              </button>
+            )}
           </div>
         ))}
       </div>

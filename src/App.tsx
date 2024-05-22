@@ -1,18 +1,19 @@
 import './App.css'
-import SemesterPage from "@/semester/semester.tsx";
+import {DeleteButtonProvider} from "@/hooks/delete-button-provider.tsx";
+import Header from "@/components/header.tsx";
 
-export default function App() {
-  localStorage.grade = JSON.stringify(4);
-  localStorage.title = JSON.stringify("B.Sc. Informatik");
-  // const [grade, setGrade] = useState<number>(JSON.parse(localStorage.grade));
-  // const [title, setTitle] = useState<string>(JSON.parse(localStorage.title));
+export default function App({children}: { children: React.ReactNode }) {
   return (
-    <>
-      <div>
-        {/*<h1>{grade} Gewinnt</h1>*/}
-        {/*<h1>{title}</h1>*/}
-        <SemesterPage/>
-      </div>
-    </>
+    <DeleteButtonProvider children={
+      <>
+        <div className="flex flex-col h-screen overflow-hidden">
+          <Header/>
+          <main>
+            {children}
+          </main>
+        </div>
+      </>
+    }>
+    </DeleteButtonProvider>
   )
 }

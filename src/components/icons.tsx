@@ -3,6 +3,7 @@ import {
   X,
   Plus,
   Trash,
+  Settings2,
 } from "lucide-react";
 
 export const Icons = {
@@ -10,4 +11,5 @@ export const Icons = {
   crown: Crown,
   plus: Plus,
   trash: Trash,
+  settings2: Settings2,
 }

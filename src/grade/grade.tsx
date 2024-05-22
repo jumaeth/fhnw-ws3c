@@ -5,11 +5,13 @@ import {useParams} from "react-router-dom";
 import {Grade, Module, Semester} from "@/types/types.ts";
 import {Icons} from "@/components/icons.tsx";
 import Card from "@/components/card.tsx";
+import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
 
 export default function GradePage() {
   const [showModal, setShowModal] = useState(false);
   const [semesters, setSemesters] = useState<Semester[]>(JSON.parse(localStorage.semesters) || [])
   const {semesterId, moduleId} = useParams();
+  const {showDeleteButtons} = useDeleteButton();
 
   const semester = semesters.find((sem: Semester) => sem.name === semesterId);
   const module = semester?.modules.find((mod: Module) => mod.name === moduleId);
@@ -64,12 +66,14 @@ export default function GradePage() {
               addonRight={"gew. " + grade.weight}
               right={grade.grade.toString()}
             />
-            <button
-              className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
-              onClick={() => deleteGrade(grade)}
-            >
-              <Icons.trash className="w-4 h-4"/>
-            </button>
+            {showDeleteButtons && (
+              <button
+                className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
+                onClick={() => deleteGrade(grade)}
+              >
+                <Icons.trash className="w-4 h-4"/>
+              </button>
+            )}
           </div>
         ))}
       </div>

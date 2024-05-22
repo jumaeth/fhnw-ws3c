@@ -4,6 +4,7 @@ import {
   Plus,
   Trash,
   Settings2,
+  ArrowLeft,
 } from "lucide-react";
 
 export const Icons = {
@@ -12,4 +13,5 @@ export const Icons = {
   plus: Plus,
   trash: Trash,
   settings2: Settings2,
+  arrowLeft: ArrowLeft,
 }

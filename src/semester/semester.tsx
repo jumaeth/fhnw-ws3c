@@ -52,7 +52,7 @@ export default function SemesterPage() {
       <h1>Semester</h1>
       <div className="flex flex-col gap-2 mb-2">
         {semester.map((semester, index) => (
-          <div key={index}>
+          <div key={index} className="flex gap-2">
             <Link to={`/semester/${semester.name}`}>
               <Card left={semester.name} right={"⌀ " + calculateAverageGrade(semester)}/>
             </Link>

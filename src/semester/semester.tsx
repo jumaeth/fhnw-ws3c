@@ -15,6 +15,10 @@ export default function SemesterPage() {
   const [showModal, setShowModal] = useState(false);
 
   function addSemester(name: string) {
+    if (semester.find((semester: Semester) => semester.name === name)) {
+      console.error("Semester already exists");
+      return;
+    }
     const semesters = JSON.parse(localStorage.semesters) || [];
     const newSemester = {name, modules: []};
     semesters.push(newSemester);
@@ -33,14 +37,29 @@ export default function SemesterPage() {
     return semester.modules.length > 0 ? (sumOfModuleAverages / semester.modules.length).toFixed(2) : 'N/A';
   }
 
+  function deleteSemester(input: Semester) {
+    const semesters = JSON.parse(localStorage.semesters) || [];
+    const updatedSemesters = semesters.filter((semester: Semester) => semester.name !== input.name);
+    setSemester(updatedSemesters);
+    localStorage.semesters = JSON.stringify(updatedSemesters);
+  }
+
   return (
     <>
       <h1>Semester</h1>
       <div className="flex flex-col gap-2 mb-2">
         {semester.map((semester, index) => (
-          <Link to={`/semester/${semester.name}`} key={index}>
-            <Card left={semester.name} right={"⌀ " + calculateAverageGrade(semester)}/>
-          </Link>
+          <div key={index} className="flex gap-2">
+            <Link to={`/semester/${semester.name}`}>
+              <Card left={semester.name} right={"⌀ " + calculateAverageGrade(semester)}/>
+            </Link>
+            <button
+              className="bg-gray-50 dark:bg-zinc-800 shadow-lg rounded-lg"
+              onClick={() => deleteSemester(semester)}
+            >
+              <Icons.trash className="w-4 h-4"/>
+            </button>
+          </div>
         ))}
       </div>
       <button

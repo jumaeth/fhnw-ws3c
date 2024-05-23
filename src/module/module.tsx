@@ -89,5 +89,5 @@ export function calculateModuleAverage(module: Module) {
     weightSum += Number(grade.weight);
   }
 
-  return weightSum > 0 ? (sumOfGradeByWeigth / weightSum).toFixed(2) : 'N/A';
+  return weightSum > 0 ? (sumOfGradeByWeigth / weightSum).toFixed(1) : 'N/A';
 }

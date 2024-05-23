@@ -29,17 +29,6 @@ export default function SemesterPage() {
     localStorage.semesters = JSON.stringify(semesters);
   }
 
-  function calculateAverageGrade(semester: Semester) {
-    let sumOfModuleAverages = 0;
-
-    for (const module of semester.modules) {
-      const moduleAverage = calculateModuleAverage(module);
-      sumOfModuleAverages += Number(moduleAverage);
-    }
-
-    return semester.modules.length > 0 ? (sumOfModuleAverages / semester.modules.length).toFixed(2) : 'N/A';
-  }
-
   function deleteSemester(input: Semester) {
     const semesters = JSON.parse(localStorage.semesters) || [];
     const updatedSemesters = semesters.filter((semester: Semester) => semester.name !== input.name);
@@ -54,7 +43,7 @@ export default function SemesterPage() {
         {semester.map((semester, index) => (
           <div key={index} className="flex gap-2">
             <Link to={`/semester/${semester.name}`}>
-              <Card left={semester.name} right={"⌀ " + calculateAverageGrade(semester)}/>
+              <Card left={semester.name} right={"⌀ " + calculateSemesterAverage(semester)}/>
             </Link>
             {showDeleteButtons && (
               <Button
@@ -80,4 +69,15 @@ export default function SemesterPage() {
       </Modal>
     </>
   )
+}
+
+export function calculateSemesterAverage(semester: Semester) {
+  let sumOfModuleAverages = 0;
+
+  for (const module of semester.modules) {
+    const moduleAverage = calculateModuleAverage(module);
+    sumOfModuleAverages += Number(moduleAverage);
+  }
+
+  return semester.modules.length > 0 ? (sumOfModuleAverages / semester.modules.length).toFixed(1) : 'N/A';
 }

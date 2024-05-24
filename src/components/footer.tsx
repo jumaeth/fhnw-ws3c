@@ -5,7 +5,7 @@ import {calculateModuleAverage} from "@/module/module.tsx";
 
 export default function Footer() {
   if (location.pathname === "/") {
-    return (<p className="text-gray-500">© {new Date().getFullYear().toString()}</p>)
+    return (<p className="text-gray-500">4 Gewinnt © {new Date().getFullYear().toString()}</p>)
   }
 
   const [averages, setAverages] = useState<number[]>([]);

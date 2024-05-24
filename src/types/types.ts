@@ -1,3 +1,8 @@
+export type Education = {
+  name: string;
+  semesters: Semester[];
+}
+
 export type Semester = {
   name: string;
   modules: Module[];

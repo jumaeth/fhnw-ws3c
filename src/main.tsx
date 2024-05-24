@@ -8,22 +8,29 @@ import {
 import ModulePage from "@/module/module.tsx";
 import GradePage from "@/grade/grade.tsx";
 import SemesterPage from "@/semester/semester.tsx";
+import EducationPage from "@/education/education.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
+      <App children={<EducationPage/>}/>
+    ),
+  },
+  {
+    path: "/education:educationId",
+    element: (
       <App children={<SemesterPage/>}/>
     ),
   },
   {
-    path: "/semester/:semesterId",
+    path: "/education:educationId/semester/:semesterId",
     element: (
       <App children={<ModulePage/>}/>
     ),
   },
   {
-    path: "/semester/:semesterId/module/:moduleId",
+    path: "/education:educationId/semester/:semesterId/module/:moduleId",
     element: (
       <App children={<GradePage/>}/>
     ),

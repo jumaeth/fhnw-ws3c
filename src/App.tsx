@@ -8,7 +8,7 @@ export default function App({children}: { children: React.ReactNode }) {
       <>
         <div className="flex flex-col h-screen">
           <Header/>
-          <main className="mb-auto">
+          <main className="flex-1">
             {children}
           </main>
           <footer

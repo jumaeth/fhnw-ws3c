@@ -44,20 +44,20 @@ export default function EducationPage() {
               <Card
                 className="bg-blue-500 text-white"
                 left={education.name}
-                right={<Icons.arrowRight className="w-4 h-4"/>}
+                right={<Icons.arrowRight color="#6b7280" className="w-4 h-4"/>}
               />
             </Link>
             {showDeleteButtons && (
               <Button
                 onClick={() => deleteEducation(education)}
-                icon={<Icons.trash className="w-4 h-4"/>}
+                icon={<Icons.trash color="#6b7280" className="w-4 h-4"/>}
               />
             )}
           </div>
         ))}
         <Button
           onClick={() => setShowModal(true)}
-          icon={<Icons.plus className="w-4 h-4"/>}
+          icon={<Icons.plus color="#6b7280" className="w-4 h-4"/>}
         />
       </div>
       <Modal open={showModal} onClose={() => setShowModal(false)}>

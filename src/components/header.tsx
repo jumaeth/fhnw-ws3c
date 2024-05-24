@@ -20,7 +20,7 @@ export default function Header() {
   const {toggleDeleteButtons} = useDeleteButton();
 
   return (
-    <header className="w-full text-center p-4">
+    <header className="w-full text-center p-4 h-2/5">
       <div className='flex min-h-[40px] tracking-wide relative z-50 bg-white'>
         <div className='flex gap-5 w-full'>
           <div className="w-1/3 flex justify-start">
@@ -32,7 +32,7 @@ export default function Header() {
           <div className="w-1/3 flex justify-end">
             <Button
               onClick={toggleDeleteButtons}
-              icon={<Icons.settings2 className="w-4 h-4"/>}
+              icon={<Icons.settings2 color="#6b7280" className="w-4 h-4"/>}
             >
             </Button>
           </div>

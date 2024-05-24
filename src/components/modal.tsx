@@ -24,7 +24,7 @@ export default function Modal({open, onClose, children}: ModalProps) {
               onClick={onClose}
               className="p-2"
             >
-              <Icons.x className="w-4 h-4"/>
+              <Icons.x color="#6b7280" className="w-4 h-4"/>
             </button>
           </div>
           {children}

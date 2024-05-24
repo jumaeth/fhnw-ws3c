@@ -44,8 +44,8 @@ export default function SemesterPage() {
 
   return (
     <>
-      <h1>Semester</h1>
-      <div className="flex flex-col gap-2 mb-2">
+      <div className="flex flex-col items-center gap-2 mb-2 mt-4">
+        <h1>Semester</h1>
         {education.semesters.map((semester, index) => (
           <div key={index} className="flex gap-2">
             <Link to={`/education/${education.name}/semester/${semester.name}`}>
@@ -54,16 +54,17 @@ export default function SemesterPage() {
             {showDeleteButtons && (
               <Button
                 onClick={() => deleteSemester(semester)}
-                icon={<Icons.trash className="w-4 h-4"/>}
+                icon={<Icons.trash color="#6b7280" className="w-4 h-4"/>}
               />
             )}
           </div>
         ))}
+        <Button
+          onClick={() => setShowModal(true)}
+          icon={<Icons.plus color="#6b7280" className="w-4 h-4"/>}
+        />
       </div>
-      <Button
-        onClick={() => setShowModal(true)}
-        icon={<Icons.plus className="w-4 h-4"/>}
-      />
+
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <div className="text-center w-80 bg-gray-50">
           <div className="mx-auto my-4 w-64">

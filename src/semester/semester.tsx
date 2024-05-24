@@ -1,48 +1,54 @@
 import {useState} from "react";
-import {Semester} from "@/types/types.ts";
+import {Education, Semester} from "@/types/types.ts";
 import {Icons} from "@/components/icons.tsx";
 import Modal from "@/components/modal.tsx";
 import SingleInputForm from "@/components/single-input-form.tsx";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import Card from "@/components/card.tsx";
 import {calculateModuleAverage} from "@/module/module.tsx";
 import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
 import Button from "@/components/button.tsx";
 
 export default function SemesterPage() {
-  if (!localStorage.semesters) {
-    localStorage.semesters = JSON.stringify([]);
-  }
-  const [semester, setSemester] = useState<Semester[]>(JSON.parse(localStorage.semesters))
+  const [educations, setEducations] = useState<Education[]>(JSON.parse(localStorage.educations))
   const [showModal, setShowModal] = useState(false);
+  const {educationId} = useParams();
   const {showDeleteButtons} = useDeleteButton();
 
+  const education = educations.find((education: Education) => education.name === educationId);
+
+  if (educationId === undefined || !education) {
+    return null;
+  }
+
   function addSemester(name: string) {
-    if (semester.find((semester: Semester) => semester.name === name)) {
-      console.error("Semester already exists");
-      return;
+    if (education) {
+      if (education.semesters.find((semester: Semester) => semester.name === name)) {
+        console.error("Semester already exists");
+        return;
+      }
+      const newSemester = {name, modules: []};
+      education.semesters.push(newSemester);
+      localStorage.educations = JSON.stringify(educations);
     }
-    const semesters = JSON.parse(localStorage.semesters) || [];
-    const newSemester = {name, modules: []};
-    semesters.push(newSemester);
-    setSemester(semesters)
-    localStorage.semesters = JSON.stringify(semesters);
   }
 
   function deleteSemester(input: Semester) {
-    const semesters = JSON.parse(localStorage.semesters) || [];
-    const updatedSemesters = semesters.filter((semester: Semester) => semester.name !== input.name);
-    setSemester(updatedSemesters);
-    localStorage.semesters = JSON.stringify(updatedSemesters);
+    if (education) {
+      education.semesters = education.semesters.filter((semester: Semester) => semester.name !== input.name);
+      const updatedEducations = educations.map((education: Education) => education.name === educationId ? education : education);
+      setEducations(updatedEducations);
+      localStorage.educations = JSON.stringify(updatedEducations);
+    }
   }
 
   return (
     <>
       <h1>Semester</h1>
       <div className="flex flex-col gap-2 mb-2">
-        {semester.map((semester, index) => (
+        {education.semesters.map((semester, index) => (
           <div key={index} className="flex gap-2">
-            <Link to={`/semester/${semester.name}`}>
+            <Link to={`/education/${education.name}/semester/${semester.name}`}>
               <Card left={semester.name} right={"⌀ " + calculateSemesterAverage(semester)}/>
             </Link>
             {showDeleteButtons && (

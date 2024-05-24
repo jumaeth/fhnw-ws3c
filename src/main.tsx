@@ -18,19 +18,19 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/education:educationId",
+    path: "/education/:educationId",
     element: (
       <App children={<SemesterPage/>}/>
     ),
   },
   {
-    path: "/education:educationId/semester/:semesterId",
+    path: "/education/:educationId/semester/:semesterId",
     element: (
       <App children={<ModulePage/>}/>
     ),
   },
   {
-    path: "/education:educationId/semester/:semesterId/module/:moduleId",
+    path: "/education/:educationId/semester/:semesterId/module/:moduleId",
     element: (
       <App children={<GradePage/>}/>
     ),

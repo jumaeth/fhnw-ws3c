@@ -2,7 +2,7 @@ import Modal from "@/components/modal.tsx";
 import GradeForm from "@/grade/grade-form.tsx";
 import {useState} from "react";
 import {useParams} from "react-router-dom";
-import {Grade, Module, Semester} from "@/types/types.ts";
+import {Education, Grade, Module, Semester} from "@/types/types.ts";
 import {Icons} from "@/components/icons.tsx";
 import Card from "@/components/card.tsx";
 import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
@@ -10,48 +10,45 @@ import Button from "@/components/button.tsx";
 
 export default function GradePage() {
   const [showModal, setShowModal] = useState(false);
-  const [semesters, setSemesters] = useState<Semester[]>(JSON.parse(localStorage.semesters) || [])
-  const {semesterId, moduleId} = useParams();
+  const [educations, setEducations] = useState<Education[]>(JSON.parse(localStorage.educations) || [])
+  const {educationId, semesterId, moduleId} = useParams();
   const {showDeleteButtons} = useDeleteButton();
 
-  const semester = semesters.find((sem: Semester) => sem.name === semesterId);
+  const education = educations.find((education: Education) => education.name === educationId);
+  const semester = education?.semesters.find((sem: Semester) => sem.name === semesterId);
   const module = semester?.modules.find((mod: Module) => mod.name === moduleId);
 
-  if (semesterId === undefined || moduleId === undefined || !semester || !module) {
+  if (educationId === undefined || semesterId === undefined || moduleId === undefined || !education || !semester || !module) {
     return null;
   }
 
   function addGrade(grade: Grade) {
-    const semesters = JSON.parse(localStorage.semesters) || [];
-    if (semester) {
-      const module = semester.modules.find((mod: any) => mod.name === moduleId);
-      if (module) {
-        if (module.grades.find((existingGrade: Grade) => existingGrade.name === grade.name)) {
-          console.error("Grade already exists");
-          return;
-        }
-        module.grades.push(grade);
-        localStorage.semesters = JSON.stringify(semesters);
-      } else {
-        console.error('Module not found');
+    const educations = JSON.parse(localStorage.educations) || [];
+    const education = educations.find((education: Education) => education.name === educationId);
+    const semester = education?.semesters.find((sem: Semester) => sem.name === semesterId);
+    const module = semester?.modules.find((mod: Module) => mod.name === moduleId);
+
+    if (education && semester && module) {
+      if (module.grades.find((existingGrade: Grade) => existingGrade.name === grade.name)) {
+        console.error("Grade already exists");
+        return;
       }
-    } else {
-      console.error('Semester not found');
+      module.grades.push(grade);
+      setEducations(educations)
+      localStorage.educations = JSON.stringify(educations);
     }
   }
 
   function deleteGrade(grade: Grade) {
-    if (semester) {
-      if (module) {
-        module.grades = module.grades.filter((grd: Grade) => grd.name !== grade.name);
-        const updatedSemesters = semesters.map((sem: Semester) => sem.name === semester.name ? semester : sem);
-        setSemesters(updatedSemesters);
-        localStorage.semesters = JSON.stringify(updatedSemesters);
-      } else {
-        console.error('Module not found');
+    if (education) {
+      if (semester) {
+        if (module) {
+          module.grades = module.grades.filter((grd: Grade) => grd.name !== grade.name);
+          const updatedEducations = educations.map((edu: Education) => edu.name === education.name ? education : edu);
+          setEducations(updatedEducations);
+          localStorage.educations = JSON.stringify(updatedEducations);
+        }
       }
-    } else {
-      console.error('Semester not found');
     }
   }
 

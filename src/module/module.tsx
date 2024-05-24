@@ -3,18 +3,24 @@ import {Link, useParams} from "react-router-dom";
 import {Icons} from "@/components/icons.tsx";
 import Modal from "@/components/modal.tsx";
 import SingleInputForm from "@/components/single-input-form.tsx";
-import {Module, Semester} from "@/types/types.ts";
+import {Education, Module, Semester} from "@/types/types.ts";
 import Card from "@/components/card.tsx";
 import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
 import Button from "@/components/button.tsx";
 
 export default function ModulePage() {
   const [showModal, setShowModal] = useState(false);
-  const [semesters, setSemesters] = useState<Semester[]>(JSON.parse(localStorage.semesters) || [])
-  const {semesterId} = useParams();
+  const [educations, setEducations] = useState<Education[]>(JSON.parse(localStorage.educations) || [])
+  const {educationId, semesterId} = useParams();
   const {showDeleteButtons} = useDeleteButton();
 
-  const semester = semesters.find((sem: Semester) => sem.name === semesterId);
+  const education = educations.find((education: Education) => education.name === educationId);
+
+  if (educationId === undefined || !education) {
+    return null;
+  }
+
+  const semester = education?.semesters.find((semester: Semester) => semester.name === semesterId);
 
   if (semesterId === undefined || !semester) {
     return null;
@@ -28,20 +34,16 @@ export default function ModulePage() {
       }
       const newModule = {name: moduleName, grades: []};
       semester.modules.push(newModule);
-      localStorage.semesters = JSON.stringify(semesters);
-    } else {
-      console.error('Semester not found');
+      localStorage.educations = JSON.stringify(educations);
     }
   }
 
   function deleteModule(module: Module) {
-    if (semester) {
+    if (education && semester) {
       semester.modules = semester.modules.filter((mod: Module) => mod.name !== module.name);
-      const updatedSemesters = semesters.map((sem: Semester) => sem.name === semester.name ? semester : sem);
-      setSemesters(updatedSemesters);
-      localStorage.semesters = JSON.stringify(updatedSemesters);
-    } else {
-      console.error('Semester not found');
+      const updatedEducations = educations.map((edu: Education) => edu.name === educationId ? education : edu);
+      setEducations(updatedEducations);
+      localStorage.educations = JSON.stringify(updatedEducations);
     }
   }
 
@@ -51,7 +53,7 @@ export default function ModulePage() {
       <div className="flex flex-col gap-2 mb-2">
         {semester.modules.map((module: Module, index: number) => (
           <div key={index} className="flex gap-2">
-            <Link to={`/semester/${semester.name}/module/${module.name}`}>
+            <Link to={`/education/${education.name}/semester/${semester.name}/module/${module.name}`}>
               <Card left={module.name} right={"⌀ " + calculateModuleAverage(module)}/>
             </Link>
             {showDeleteButtons && (

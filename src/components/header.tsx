@@ -9,7 +9,7 @@ export default function Header() {
   if (location.pathname === '/') {
     return (
       <header className="w-full flex justify-center items-end text-center h-2/5 p-4">
-        <div className=' tracking-wide relative z-50 bg-white space-y-6'>
+        <div className=' tracking-wide relative bg-white space-y-6'>
           <Logo/>
           <Title/>
         </div>
@@ -21,7 +21,7 @@ export default function Header() {
 
   return (
     <header className="w-full text-center p-4 h-2/5">
-      <div className='flex min-h-[40px] tracking-wide relative z-50 bg-white'>
+      <div className='flex min-h-[40px] tracking-wide relative bg-white'>
         <div className='flex gap-5 w-full'>
           <div className="w-1/3 flex justify-start">
             <BackButton onClick={() => window.history.back()}/>

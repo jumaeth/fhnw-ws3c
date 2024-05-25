@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Semester} from "@/types/types.ts";
+import {Education} from "@/types/types.ts";
 import {calculateSemesterAverage} from "@/semester/semester.tsx";
 import {calculateModuleAverage} from "@/module/module.tsx";
 
@@ -11,10 +11,11 @@ export default function Footer() {
   const [averages, setAverages] = useState<number[]>([]);
 
   useEffect(() => {
-    const semesters: Semester[] = JSON.parse(localStorage.semesters);
+    const educations: Education[] = JSON.parse(localStorage.educations);
+    const semesters = educations.map(edu => edu.semesters).flat();
 
     if (location.pathname.includes('/education')) {
-      const averages = semesters.map(semester => parseFloat(calculateSemesterAverage(semester)));
+      const averages = semesters.map(sem => parseFloat(calculateSemesterAverage(sem)));
       setAverages(averages);
     }
     if (location.pathname.includes('/education') && location.pathname.includes('/semester')) {

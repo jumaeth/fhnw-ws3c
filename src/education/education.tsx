@@ -39,7 +39,7 @@ export default function EducationPage() {
     <>
       <div className="flex flex-col items-center gap-2 mb-2 mt-4">
         {educations.map((education, index) => (
-          <div key={index} className="gap-4">
+          <div key={index} className="flex gap-4">
             <Link to={`/education/${education.name}`}>
               <Card
                 className="bg-blue-500 text-white"

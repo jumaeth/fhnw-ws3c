@@ -6,11 +6,11 @@ interface ButtonProps {
   className?: string
 }
 
-export default function Button({onClick, icon, text, submit, className}: ButtonProps) {
+export default function Button({ onClick, icon, text, submit, className }: ButtonProps) {
   return (
     <button
       onClick={onClick}
-      className={`${className} text-grey-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center`}
+      className={`text-grey-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ${className} `}
       type={submit ? "submit" : "button"}
     >
       {icon}

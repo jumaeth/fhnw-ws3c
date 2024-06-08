@@ -1,23 +1,20 @@
-import {DeleteButtonProvider} from "@/hooks/delete-button-provider.tsx";
+import { DeleteButtonProvider } from "@/hooks/delete-button-provider.tsx";
 import Header from "@/components/header.tsx";
-import Footer from "@/components/footer.tsx";
+import { Footer } from "./components/footer";
+import { WinGradeProvider } from "./hooks/win-grade-provider";
 
-export default function App({children}: { children: React.ReactNode }) {
+export default function App({ children }: { children: React.ReactNode }) {
   return (
-    <DeleteButtonProvider children={
-      <>
+    <DeleteButtonProvider>
+      <WinGradeProvider>
         <div className="flex flex-col h-screen">
-          <Header/>
+          <Header />
           <main className="flex-1">
             {children}
           </main>
-          <footer
-            className="w-full rounded-t-3xl border-2 shadow-[rgba(0,0,15,0.5)_0px_0px_10px_0px] bg-white text-center p-4">
-            <Footer/>
-          </footer>
+          <Footer />
         </div>
-      </>
-    }>
+      </WinGradeProvider>
     </DeleteButtonProvider>
   )
 }

@@ -6,6 +6,11 @@ import {
   Settings2,
   ArrowLeft,
   ArrowRight,
+  CirclePlus,
+  CircleMinus,
+  Weight,
+  SquarePen,
+  CircleSlash2,
 } from "lucide-react";
 
 export const Icons = {
@@ -16,4 +21,9 @@ export const Icons = {
   settings2: Settings2,
   arrowLeft: ArrowLeft,
   arrowRight: ArrowRight,
+  down: CircleMinus,
+  up: CirclePlus,
+  weight: Weight,
+  squarePen: SquarePen,
+  average: CircleSlash2,
 }

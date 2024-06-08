@@ -1,52 +1,32 @@
-import {useEffect, useState} from "react";
-import {Education} from "@/types/types.ts";
-import {calculateSemesterAverage} from "@/semester/semester.tsx";
-import {calculateModuleAverage} from "@/module/module.tsx";
+import { Icons } from "./icons";
 
-export default function Footer() {
-  if (location.pathname === "/") {
-    return (<p className="text-gray-500">4 Gewinnt © {new Date().getFullYear().toString()}</p>)
-  }
+export function Footer() {
 
-  const [averages, setAverages] = useState<number[]>([]);
+    const average = parseFloat(localStorage.getItem("average") || "0");
+    const getColor = average < 4 ? average < 3.75 ? "text-red-500" : "text-orange-500" : "text-green-500";
 
-  useEffect(() => {
-    const educations: Education[] = JSON.parse(localStorage.educations);
-    const semesters = educations.map(edu => edu.semesters).flat();
-
-    if (location.pathname.includes('/education')) {
-      const averages = semesters.map(sem => parseFloat(calculateSemesterAverage(sem)));
-      setAverages(averages);
+    if (location.pathname === "/") {
+        return <CoreFooter><p className="text-gray-500">4 Gewinnt © {new Date().getFullYear().toString()}</p></CoreFooter>
     }
-    if (location.pathname.includes('/education') && location.pathname.includes('/semester')) {
-      const semester = semesters.find(semester => semester.name === location.pathname.split('/')[2]);
-      if (!semester) return;
-      const averages = semester?.modules.map(module => parseFloat(calculateModuleAverage(module)));
-      setAverages(averages);
-    }
-    if (location.pathname.includes('/education') && location.pathname.includes('/semester') && location.pathname.includes('/module')) {
-      const semester = semesters.find(semester => semester.name === location.pathname.split('/')[2]);
-      if (!semester) return;
-      const module = semester.modules.find(module => module.name === location.pathname.split('/')[4]);
-      if (!module) return;
-      const averages = module.grades.map(grade => grade.grade);
-      setAverages(averages);
-    }
-  }, [location]);
 
-  function calculateAverageGrade(grades: number[]) {
-    if (!grades.length) return 0;
-    const sum = grades.reduce((a, b) => a + b, 0);
-    return parseFloat((sum / grades.length).toFixed(1));
-  }
+    return (
+        <CoreFooter>
+            {(average > 0) && <><Icons.average className="h-4 w-4" /><p className={`ml-2 text-2xl ${getColor}`}>{average.toFixed(2)}</p></>}
+            {(average === 0) && (<p className="text-gray-500">Kein Durchschnitt verfügbar</p>)}
+        </CoreFooter>
+    )
+}
 
-  const average = calculateAverageGrade(averages);
+export function setAverage(average: number) {
+    localStorage.setItem("average", average.toString());
+}
 
-  const getColor = average < 4 ? average < 3.75 ? "text-red-500" : "text-orange-500" : "text-green-500";
-
-  return (
-    <div className="flex justify-center items-center h-12">
-      <p className="text-2xl">{"tot. ⌀ "}</p><p className={`ml-2 text-2xl ${getColor}`}>{average.toFixed(1)}</p>
-    </div>
-  )
+function CoreFooter({ children }: { children: any }) {
+    return (
+        <footer className="w-full rounded-t-3xl shadow-[rgba(0,0,15,0.5)_0px_0px_8px_0px] bg-white text-center p-4">
+            <div className="flex justify-center items-center h-12">
+                {children}
+            </div>
+        </footer>
+    )
 }

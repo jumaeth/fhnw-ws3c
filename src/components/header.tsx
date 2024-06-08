@@ -1,42 +1,38 @@
-import {Icons} from "@/components/icons.tsx";
-import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
+import { Icons } from "@/components/icons.tsx";
+import { useDeleteButton } from "@/hooks/delete-button-provider.tsx";
 import Button from "@/components/button.tsx";
 import BackButton from "@/components/back-button.tsx";
 import Logo from "@/components/logo.tsx";
-import Title from "@/components/title.tsx";
+import { WinGrade } from "./win-grade";
+
 
 export default function Header() {
   if (location.pathname === '/') {
     return (
-      <header className="w-full flex justify-center items-end text-center h-2/5 p-4">
-        <div className=' tracking-wide relative bg-white space-y-6'>
-          <Logo/>
-          <Title/>
-        </div>
+      <header className="w-full flex flex-col gap-20 items-center p-6">
+        <Logo />
+        <WinGrade />
       </header>
     )
   }
 
-  const {toggleDeleteButtons} = useDeleteButton();
+  const { toggleDeleteButtons } = useDeleteButton();
 
   return (
-    <header className="w-full text-center p-4 h-2/5">
-      <div className='flex min-h-[40px] tracking-wide relative bg-white'>
-        <div className='flex gap-5 w-full'>
-          <div className="w-1/3 flex justify-start">
-            <BackButton onClick={() => window.history.back()}/>
-          </div>
-          <div className="w-1/3">
-            <Logo/>
-          </div>
-          <div className="w-1/3 flex justify-end">
-            <Button
-              onClick={toggleDeleteButtons}
-              icon={<Icons.settings2 color="#6b7280" className="w-4 h-4"/>}
-            >
-            </Button>
-          </div>
-        </div>
+    <header className="w-full py-6 flex items-start">
+      <div className="w-1/3 flex justify-start">
+        <BackButton onClick={() => window.history.back()} />
+      </div>
+      <div className="w-1/3 flex flex-col gap-20 items-center">
+        <Logo />
+        <WinGrade />
+      </div>
+      <div className="w-1/3 flex justify-end">
+        <Button
+          onClick={toggleDeleteButtons}
+          icon={<Icons.settings2 color="#6b7280" className="w-6 h-6" />}
+        >
+        </Button>
       </div>
     </header>
   )

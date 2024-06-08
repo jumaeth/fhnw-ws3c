@@ -6,13 +6,13 @@ interface ModalProps {
   children: any
 }
 
-export default function Modal({open, onClose, children}: ModalProps) {
+export default function Modal({ open, onClose, children }: ModalProps) {
   return (
     <>
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 flex justify-center items-center transition-colors ${open ? "visisble bg-black/20" : "invisible"}`}
+        className={`absolute z-100 inset-0 flex justify-center items-center transition-colors ${open ? "visisble bg-black/80" : "invisible"}`}
       >
         {/* Modal */}
         <div
@@ -24,7 +24,7 @@ export default function Modal({open, onClose, children}: ModalProps) {
               onClick={onClose}
               className="p-2"
             >
-              <Icons.x color="#6b7280" className="w-4 h-4"/>
+              <Icons.x />
             </button>
           </div>
           {children}

@@ -1,68 +1,53 @@
-import {useState} from "react";
-import {Education, Semester} from "@/types/types.ts";
-import {Icons} from "@/components/icons.tsx";
+import { useState } from "react";
+import { Education, Semester } from "@/types/types.ts";
 import Modal from "@/components/modal.tsx";
 import SingleInputForm from "@/components/single-input-form.tsx";
-import {Link, useParams} from "react-router-dom";
-import Card from "@/components/card.tsx";
-import {calculateModuleAverage} from "@/module/module.tsx";
-import {useDeleteButton} from "@/hooks/delete-button-provider.tsx";
-import Button from "@/components/button.tsx";
+import { useParams } from "react-router-dom";
+import { calculateModuleAverage } from "@/module/module.tsx";
+import { setAverage } from "@/components/footer";
+import { SemesterCard } from "./semester-card";
+import { Subtitle } from "@/components/subtitle";
+import { AddButton } from "@/components/add-button";
 
 export default function SemesterPage() {
-  const [educations, setEducations] = useState<Education[]>(JSON.parse(localStorage.educations))
+  const { educationId } = useParams();
+
+  const [educations] = useState<Education[]>(JSON.parse(localStorage.educations))
+  const [education] = educations.filter((education: Education) => education.name === educationId);
+  const [semesters, setSemesters] = useState(education?.semesters);
+
   const [showModal, setShowModal] = useState(false);
-  const {educationId} = useParams();
-  const {showDeleteButtons} = useDeleteButton();
 
-  const education = educations.find((education: Education) => education.name === educationId);
-
-  if (educationId === undefined || !education) {
-    return null;
-  }
+  setAverage(calculateEducationAverage(education));
 
   function addSemester(name: string) {
-    if (education) {
-      if (education.semesters.find((semester: Semester) => semester.name === name)) {
-        console.error("Semester already exists");
-        return;
-      }
-      const newSemester = {name, modules: []};
-      education.semesters.push(newSemester);
-      localStorage.educations = JSON.stringify(educations);
+    if (semesters.find((semester: Semester) => semester.name === name)) {
+      console.error("Semester already exists");
+      return;
     }
+    const newSemesters = [...semesters, { name, modules: [] }];
+    setSemesters(newSemesters);
+    education.semesters = newSemesters;
+    localStorage.educations = JSON.stringify(educations);
   }
 
   function deleteSemester(input: Semester) {
-    if (education) {
-      education.semesters = education.semesters.filter((semester: Semester) => semester.name !== input.name);
-      const updatedEducations = educations.map((education: Education) => education.name === educationId ? education : education);
-      setEducations(updatedEducations);
-      localStorage.educations = JSON.stringify(updatedEducations);
-    }
+    const newSemesters = semesters.filter((semester: Semester) => semester.name !== input.name);
+    setSemesters(newSemesters);
+    education.semesters = newSemesters;
+    localStorage.educations = JSON.stringify(educations);
   }
 
   return (
     <>
       <div className="flex flex-col items-center gap-2 mb-2 mt-4">
-        <h1>Semester</h1>
+        <Subtitle>{education.name}</Subtitle>
+
         {education.semesters.map((semester, index) => (
-          <div key={index} className="flex gap-2">
-            <Link to={`/education/${education.name}/semester/${semester.name}`}>
-              <Card left={semester.name} right={"⌀ " + calculateSemesterAverage(semester)}/>
-            </Link>
-            {showDeleteButtons && (
-              <Button
-                onClick={() => deleteSemester(semester)}
-                icon={<Icons.trash color="#6b7280" className="w-4 h-4"/>}
-              />
-            )}
-          </div>
+          <SemesterCard key={index} semester={semester} deleteSemester={deleteSemester} />
         ))}
-        <Button
-          onClick={() => setShowModal(true)}
-          icon={<Icons.plus color="#6b7280" className="w-4 h-4"/>}
-        />
+
+        <AddButton onClick={() => setShowModal(true)} />
       </div>
 
       <Modal open={showModal} onClose={() => setShowModal(false)}>
@@ -70,7 +55,7 @@ export default function SemesterPage() {
           <div className="mx-auto my-4 w-64">
             <h3 className="text-lg font-black text-gray-800 mb-6">Neues Semester</h3>
             <SingleInputForm inputLabelName="Semester" placeholder="HS25" setShowModal={setShowModal}
-                             onSave={text => addSemester(text)}/>
+              onSave={text => addSemester(text)} />
           </div>
         </div>
       </Modal>
@@ -78,13 +63,36 @@ export default function SemesterPage() {
   )
 }
 
-export function calculateSemesterAverage(semester: Semester) {
+function calculateEducationAverage(education: Education): number {
+  let sumOfSemesterAverages = 0;
+  let semesterCount = 0;
+
+  for (const semester of education.semesters) {
+    const semesterAverage = calculateSemesterAverage(semester);
+    if (semesterAverage === 0) {
+      continue;
+    }
+    sumOfSemesterAverages += Number(semesterAverage);
+    semesterCount++;
+  }
+  return education.semesters.length > 0 ? (sumOfSemesterAverages / semesterCount) : 0;
+}
+
+export function calculateSemesterAverage(semester: Semester): number {
+  if (!semester.modules.length) {
+    return 0;
+  }
   let sumOfModuleAverages = 0;
+  let moduleCount = 0;
 
   for (const module of semester.modules) {
     const moduleAverage = calculateModuleAverage(module);
+    if (moduleAverage === 0) {
+      continue;
+    }
     sumOfModuleAverages += Number(moduleAverage);
+    moduleCount++;
   }
 
-  return semester.modules.length > 0 ? (sumOfModuleAverages / semester.modules.length).toFixed(1) : 'N/A';
+  return semester.modules.length > 0 ? (sumOfModuleAverages / semester.modules.length) : 0;
 }

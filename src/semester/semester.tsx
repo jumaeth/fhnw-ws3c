@@ -47,7 +47,7 @@ export default function SemesterPage() {
           <SemesterCard key={index} semester={semester} deleteSemester={deleteSemester} />
         ))}
 
-        <AddButton onClick={() => setShowModal(true)} />
+        <AddButton onClick={() => setShowModal(true)} text="Semester hinzufügen" />
       </div>
 
       <Modal open={showModal} onClose={() => setShowModal(false)}>

@@ -10,7 +10,7 @@ export function useWinGrade() {
 }
 
 export function WinGradeProvider({ children }: { children: React.ReactNode }) {
-    const [winGrade, setWinGrade] = useState(4);
+    const [winGrade, setWinGrade] = useState(parseFloat(localStorage.getItem("winGrade") || "4"));
 
     const updateWinGrade = (up: boolean) => {
         const newGrade = winGrade + (up ? 1 : -1);

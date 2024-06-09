@@ -44,7 +44,7 @@ export function GeneratedGradeCard({ grade, module, deleteGrade, setGrade }: Gen
 
     return (
         <>
-            <div className="mt-8 flex flex-row gap-2">
+            <div className="flex flex-row gap-2">
                 <div onClick={() => setShowModal(true)} className={`hover:cursor-pointer border-dashed border-2 border-sky-500 bg-sky-100 w-64 flex flex-row items-center justify-between text-gray-500 gap-4 rounded-lg py-4 px-6`}>
                     <p className="text-xl">{grade.name}</p>
                     <div className="flex gap-6">

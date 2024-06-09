@@ -30,7 +30,9 @@ export default function GradePage() {
         return;
       }
       grade.grade = 0;
-      module.grades.push(grade);
+      const newGrades = [...grades, grade];
+      setGrades(newGrades);
+      module.grades = newGrades;
       setEducations(educations)
       localStorage.educations = JSON.stringify(educations);
     }
@@ -71,6 +73,8 @@ export default function GradePage() {
             </div>
           </Card>
         ))}
+
+        <h4 className="text-md font-black text-gray-600 mt-2">Ausstehend</h4>
 
         {grades.filter((grade: Grade) => grade.grade === 0).map((grade: Grade, index: number) => (
           <GeneratedGradeCard key={index} grade={grade} module={module} setGrade={setGradeGrade} deleteGrade={deleteGrade} />

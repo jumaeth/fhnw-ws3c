@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Education } from "@/types/types.ts";
-import Button from "@/components/button.tsx";
 import { Icons } from "@/components/icons.tsx";
 import Modal from "@/components/modal.tsx";
 import SingleInputForm from "@/components/single-input-form.tsx";
 import { Card } from "@/components/card";
+import { AddButton } from "@/components/add-button";
 
 export default function EducationPage() {
   if (!localStorage.educations) {
@@ -47,10 +47,9 @@ export default function EducationPage() {
             </Card>
           </div>
         ))}
-        <Button
-          onClick={() => setShowModal(true)}
-          icon={<Icons.plus color="#6b7280" className="w-4 h-4" />}
-        />
+
+        <AddButton onClick={() => setShowModal(true)} text="Ausbildung hinzufügen" />
+
       </div>
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <div className="text-center w-80 bg-gray-50">

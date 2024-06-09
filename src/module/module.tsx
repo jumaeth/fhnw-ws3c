@@ -54,7 +54,7 @@ export default function ModulePage() {
             </div>
           </Card>
         ))}
-        <AddButton onClick={() => setShowModal(true)} />
+        <AddButton onClick={() => setShowModal(true)} text="Modul hinzufügen" />
       </div>
 
       <Modal open={showModal} onClose={() => setShowModal(false)}>

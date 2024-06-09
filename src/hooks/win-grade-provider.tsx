@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react';
 
 const WinGradeContext = createContext({
     winGrade: 4,
-    setWinGrade: (up: boolean) => { }
+    setWinGrade: (_up: boolean) => { }
 });
 
 export function useWinGrade() {

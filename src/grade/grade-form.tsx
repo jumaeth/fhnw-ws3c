@@ -5,17 +5,20 @@ import Button from "@/components/button.tsx";
 interface Props {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   onSave: (grade: Grade) => void;
+  blockedNames: string[];
 }
 
-export default function GradeForm({ setShowModal, onSave }: Props) {
+export default function GradeForm({ setShowModal, onSave, blockedNames }: Props) {
   const [name, setName] = useState("")
   const [weight, setWeigth] = useState("")
+  const [error, setError] = useState("")
 
   function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
     setName(e.target.value);
+    if (blockedNames.includes(e.target.value)) {
+      setError("Name bereits vergeben")
+    }
   }
-
-
 
   function handleWeigthChange(e: React.ChangeEvent<HTMLInputElement>) {
     setWeigth(e.target.value);
@@ -45,6 +48,7 @@ export default function GradeForm({ setShowModal, onSave }: Props) {
           placeholder="EN 1"
           required
         />
+        {error && <p className="text-red-500 text-sm">{error}</p>}
       </div>
       <div className="mb-6">
         <label htmlFor="input" className="block mb-2 text-sm font-medium text-gray-900">
@@ -66,6 +70,7 @@ export default function GradeForm({ setShowModal, onSave }: Props) {
           text="Abbrechen"
         />
         <Button
+          disabled={error.length > 0}
           submit={true}
           text="Speichern"
         />

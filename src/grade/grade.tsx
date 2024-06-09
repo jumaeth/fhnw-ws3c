@@ -3,12 +3,13 @@ import GradeForm from "@/grade/grade-form.tsx";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Education, Grade, Module, Semester } from "@/types/types.ts";
-import { GradeCard } from "./grade-card";
 import { GeneratedGradeCard } from "./generated-grade-card";
 import { Subtitle } from "@/components/subtitle";
 import { setAverage } from "@/components/footer";
 import { calculateModuleAverage } from "@/module/module";
 import { AddButton } from "@/components/add-button";
+import { Card } from "@/components/card";
+import { Icons } from "@/components/icons";
 
 export default function GradePage() {
 
@@ -58,24 +59,30 @@ export default function GradePage() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-2 mb-2 mt-4">
+      <div className="flex flex-col items-center justify-center gap-4 mb-2 mt-4">
         <Subtitle>{module.name}</Subtitle>
 
         {grades.filter((grade: Grade) => grade.grade !== 0).map((grade: Grade, index: number) => (
-          <GradeCard key={index} grade={grade} deleteGrade={deleteGrade} />
+          <Card key={index} toDelete={() => deleteGrade(grade)}>
+            <p>{grade.name}</p>
+            <div className="flex gap-6">
+              <span className="flex items-center gap-2 "><Icons.weight color="#6b7280" className="w-4 h-4" />{grade.weight} %</span>
+              <span className="font-semibold text-gray-800 text-2xl">{grade.grade}</span>
+            </div>
+          </Card>
         ))}
 
         {grades.filter((grade: Grade) => grade.grade === 0).map((grade: Grade, index: number) => (
           <GeneratedGradeCard key={index} grade={grade} module={module} setGrade={setGradeGrade} deleteGrade={deleteGrade} />
         ))}
-        <AddButton onClick={() => setShowModal(true)} />
+        <AddButton onClick={() => setShowModal(true)} text="Note hinzufügen" />
       </div>
 
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <div className="text-center w-80 bg-gray-50">
           <div className="mx-auto my-4 w-64">
             <h3 className="text-lg font-black text-gray-800 mb-6">Neue Note</h3>
-            <GradeForm setShowModal={setShowModal} onSave={grade => addGrade(grade)} />
+            <GradeForm blockedNames={grades.map((g: Grade) => g.name)} setShowModal={setShowModal} onSave={grade => addGrade(grade)} />
           </div>
         </div>
       </Modal>

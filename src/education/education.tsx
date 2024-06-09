@@ -34,7 +34,7 @@ export default function EducationPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-2 mb-2 mt-4">
+      <div className="flex flex-col items-center gap-4 mb-2 mt-4">
         {educations.map((education, index) => (
           <div key={index} className="flex gap-4">
             <Card
@@ -57,7 +57,7 @@ export default function EducationPage() {
           <div className="mx-auto my-4 w-64">
             <h3 className="text-lg font-black text-gray-800 mb-6">Neue Ausbildung</h3>
             <SingleInputForm inputLabelName="Ausbildung" placeholder="Studium Hochschule" setShowModal={setShowModal}
-              onSave={text => addEducation(text)} />
+              onSave={text => addEducation(text)} blockedValues={educations.map((e: Education) => e.name)} />
           </div>
         </div>
       </Modal>

@@ -1,12 +1,12 @@
 import Modal from "@/components/modal";
 import { Grade, Module } from "@/types/types";
 import { useState } from "react";
-import { GradeValueForm } from "./grade-value-form";
 import Button from "@/components/button";
 import { Icons } from "@/components/icons";
 import { calculateModuleAverage } from "@/module/module";
 import { useDeleteButton } from "@/hooks/delete-button-provider";
 import { useWinGrade } from "@/hooks/win-grade-provider";
+import SingleInputForm from "@/components/single-input-form";
 
 interface GeneratedGradeCardProps {
     grade: Grade;
@@ -68,7 +68,8 @@ export function GeneratedGradeCard({ grade, module, deleteGrade, setGrade }: Gen
                 <div className="text-center w-80 bg-gray-50">
                     <div className="mx-auto my-4 w-64">
                         <h3 className="text-lg font-black text-gray-800 mb-6">Note setzten</h3>
-                        <GradeValueForm setShowModal={setShowModal} gradeToSet={grade} onSave={grade => setGrade(grade)} />
+                        <SingleInputForm inputLabelName="Note" placeholder="4.0" setShowModal={setShowModal}
+                            onSave={value => setGrade({ name: grade.name, grade: parseFloat(value), weight: grade.weight })} />
                     </div>
                 </div>
             </Modal>

@@ -40,7 +40,7 @@ export default function SemesterPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-2 mb-2 mt-4">
+      <div className="flex flex-col items-center gap-4 mb-2 mt-4">
         <Subtitle>{education.name}</Subtitle>
 
         {education.semesters.map((semester, index) => (
@@ -55,7 +55,7 @@ export default function SemesterPage() {
           <div className="mx-auto my-4 w-64">
             <h3 className="text-lg font-black text-gray-800 mb-6">Neues Semester</h3>
             <SingleInputForm inputLabelName="Semester" placeholder="HS25" setShowModal={setShowModal}
-              onSave={text => addSemester(text)} />
+              onSave={text => addSemester(text)} blockedValues={semesters.map((s: Semester) => s.name)} />
           </div>
         </div>
       </Modal>

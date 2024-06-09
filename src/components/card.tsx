@@ -31,7 +31,7 @@ export function Card({ toDelete, children, url }: Props) {
 
 function CoreCard({ children }: { children: any }) {
     return (
-        <div className={`bg-white text-xl w-64  text-gray-500 gap-4 shadow-lg rounded-lg py-4 px-6`}>
+        <div className={`bg-white border-1 border border-gray-200 text-xl w-64  text-gray-500 gap-4 drop-shadow-md rounded-lg py-4 px-6`}>
             <div className="flex flex-row items-center justify-between w-full">
                 {children}
             </div>

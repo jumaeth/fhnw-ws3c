@@ -41,7 +41,7 @@ export default function ModulePage() {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-2 mb-2 mt-4">
+      <div className="flex flex-col items-center gap-4 mb-2 mt-4">
 
         <Subtitle>{semester.name}</Subtitle>
 
@@ -62,7 +62,7 @@ export default function ModulePage() {
           <div className="mx-auto my-4 w-64">
             <h3 className="text-lg font-black text-gray-800 mb-6">Neues Modul</h3>
             <SingleInputForm inputLabelName="Module" placeholder="MADA" setShowModal={setShowModal}
-              onSave={moduleName => addModule(moduleName)} />
+              onSave={moduleName => addModule(moduleName)} blockedValues={modules.map((m: Module) => m.name)} />
           </div>
         </div>
       </Modal>

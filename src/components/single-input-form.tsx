@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Button from "@/components/button.tsx";
 
 interface Props {
@@ -6,12 +6,19 @@ interface Props {
   placeholder?: string;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   onSave: (text: string) => void;
+  blockedValues?: string[];
 }
 
-export default function SingleInputForm({inputLabelName, placeholder, setShowModal, onSave}: Props) {
+export default function SingleInputForm({ inputLabelName, placeholder, setShowModal, onSave, blockedValues }: Props) {
+
   const [input, setInput] = useState("")
+  const [error, setError] = useState("")
+
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     setInput(e.target.value);
+    if (blockedValues && blockedValues.includes(e.target.value)) {
+      setError("Name bereits vergeben")
+    }
   }
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     // Prevents from reloading the page, so the state is not deleted
@@ -28,14 +35,15 @@ export default function SingleInputForm({inputLabelName, placeholder, setShowMod
           {inputLabelName}
         </label>
         <input type="text"
-               value={input}
-               id="input"
-               name="input"
-               onChange={handleInputChange}
-               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-               placeholder={placeholder}
-               required
+          value={input}
+          id="input"
+          name="input"
+          onChange={handleInputChange}
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+          placeholder={placeholder}
+          required
         />
+        {error && <p className="text-red-500 text-sm">{error}</p>}
       </div>
       <div className="flex gap-4">
         <Button
@@ -43,6 +51,7 @@ export default function SingleInputForm({inputLabelName, placeholder, setShowMod
           text="Abbrechen"
         />
         <Button
+          disabled={error.length > 0}
           text="Speichern"
           submit={true}
         />

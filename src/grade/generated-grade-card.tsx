@@ -69,7 +69,10 @@ export function GeneratedGradeCard({ grade, module, deleteGrade, setGrade }: Gen
                     <div className="mx-auto my-4 w-64">
                         <h3 className="text-lg font-black text-gray-800 mb-6">Note setzten</h3>
                         <SingleInputForm inputLabelName="Note" placeholder="4.0" setShowModal={setShowModal}
-                            onSave={value => setGrade({ name: grade.name, grade: parseFloat(value), weight: grade.weight })} />
+                            onSave={value => setGrade({ name: grade.name, grade: parseFloat(value), weight: grade.weight })}
+                            max={7}
+                            min={1}
+                        />
                     </div>
                 </div>
             </Modal>

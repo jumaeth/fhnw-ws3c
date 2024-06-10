@@ -7,9 +7,11 @@ interface Props {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   onSave: (text: string) => void;
   blockedValues?: string[];
+  max?: number;
+  min?: number;
 }
 
-export default function SingleInputForm({ inputLabelName, placeholder, setShowModal, onSave, blockedValues }: Props) {
+export default function SingleInputForm({ inputLabelName, placeholder, setShowModal, onSave, blockedValues, max, min }: Props) {
 
   const [input, setInput] = useState("")
   const [error, setError] = useState("")
@@ -19,6 +21,12 @@ export default function SingleInputForm({ inputLabelName, placeholder, setShowMo
     if (blockedValues && blockedValues.includes(e.target.value)) {
       setError("Name bereits vergeben")
     }
+    if (max && parseFloat(e.target.value) > max) {
+      setError(`Bitte Werte im Bereich ${min} - ${max} eingeben`)
+    }
+    if (min && parseFloat(e.target.value) < min) {
+      setError(`Bitte Werte im Bereich ${min} - ${max} eingeben`)
+    }
   }
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     // Prevents from reloading the page, so the state is not deleted
@@ -27,6 +35,7 @@ export default function SingleInputForm({ inputLabelName, placeholder, setShowMo
     setShowModal(false);
     setInput("");
   }
+
 
   return (
     <form className="text-left" onSubmit={handleSubmit}>
@@ -43,7 +52,7 @@ export default function SingleInputForm({ inputLabelName, placeholder, setShowMo
           placeholder={placeholder}
           required
         />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
       </div>
       <div className="flex gap-4">
         <Button

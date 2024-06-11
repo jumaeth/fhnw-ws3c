@@ -7,7 +7,7 @@ export default function App({ children }: { children: React.ReactNode }) {
   return (
     <DeleteButtonProvider>
       <WinGradeProvider>
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-[calc(100dvh)]">
           <Header />
           <main className="flex-1">
             {children}

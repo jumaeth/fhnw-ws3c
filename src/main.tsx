@@ -14,29 +14,29 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <App children={<EducationPage/>}/>
+      <App children={<EducationPage />} />
     ),
   },
   {
     path: "/education/:educationId",
     element: (
-      <App children={<SemesterPage/>}/>
+      <App children={<SemesterPage />} />
     ),
   },
   {
     path: "/education/:educationId/semester/:semesterId",
     element: (
-      <App children={<ModulePage/>}/>
+      <App children={<ModulePage />} />
     ),
   },
   {
     path: "/education/:educationId/semester/:semesterId/module/:moduleId",
     element: (
-      <App children={<GradePage/>}/>
+      <App children={<GradePage />} />
     ),
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <RouterProvider router={router}/>
+  <RouterProvider router={router} />
 )
